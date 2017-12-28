@@ -97,20 +97,26 @@ namespace EnsightenGTMConverter.FileActions
 
                 tag.firingTriggerId = new List<string>();
                 var triggers = reader[7].ToString().Split(' ');
-                if(triggers.Length > 1)
+
+                //include disabled tags, but don't give them a trigger 
+                if(reader[5].ToString() == "enabled_published")
                 {
-                    foreach(var trigger in triggers)
+                    if (triggers.Length > 1)
                     {
-                        if(trigger != "")
+                        foreach (var trigger in triggers)
                         {
-                            tag.firingTriggerId.Add(trigger);
+                            if (trigger != "")
+                            {
+                                tag.firingTriggerId.Add(trigger);
+                            }
                         }
                     }
-                } else if(triggers[0] != "")
-                {
-                    tag.firingTriggerId.Add(reader[7].ToString());
+                    else if (triggers[0] != "")
+                    {
+                        tag.firingTriggerId.Add(reader[7].ToString());
+                    }
                 }
-                
+
                 tag.tagFiringOption = "ONCE_PER_EVENT";
 
                 Parameter htmlParam = new Parameter();
