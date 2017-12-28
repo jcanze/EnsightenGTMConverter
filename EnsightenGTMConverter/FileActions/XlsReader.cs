@@ -105,7 +105,7 @@ namespace EnsightenGTMConverter.FileActions
                     {
                         foreach (var trigger in triggers)
                         {
-                            if (trigger != "")
+                            if (trigger != "" && cv.trigger.FirstOrDefault<Trigger>(t => t.triggerId == trigger) != null)
                             {
                                 tag.firingTriggerId.Add(trigger);
                             }
@@ -113,7 +113,11 @@ namespace EnsightenGTMConverter.FileActions
                     }
                     else if (triggers[0] != "")
                     {
-                        tag.firingTriggerId.Add(reader[7].ToString());
+                        var trigger = reader[7].ToString();
+                        if(cv.trigger.FirstOrDefault<Trigger>(t => t.triggerId == trigger) != null)
+                        {
+                            tag.firingTriggerId.Add(reader[7].ToString());
+                        }
                     }
                 }
 
